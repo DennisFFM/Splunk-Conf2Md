@@ -1,0 +1,17 @@
+### Splunk Export ###
+EXPORT_BASE = export/savedsearches
+TEMPLATE_DIR = templates
+TEMPLATE_NAME = example.md.j2
+#NOTABLE_FILTER_KEY = action.notable
+#NOTABLE_FILTER_VALUE = 1
+SPLUNK_BIN = /opt/splunk/bin/
+
+### WikiJS Import ###
+WIKIJS_URL = http://wikijs.local:3000/graphql
+WIKIJS_API_TOKEN = PASTE_TOKEN_HERE
+WIKIJS_MARKDOWN_DIR = export/savedsearches
+# Base Path without locale like "/en/"
+WIKIJS_BASE_PATH = /a/b/c
+WIKIJS_LOCALE = en
+WIKIJS_MAX_PARALLEL_UPLOADS = 5
+WIKIJS_LOG_FILE = logs/wikijs_upload_{execution_time}.log

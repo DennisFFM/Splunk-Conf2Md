@@ -1,0 +1,6 @@
+splunk-sdk
+python-dotenv
+jinja2
+requests
+tqdm
+rich
