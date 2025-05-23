@@ -150,9 +150,7 @@ Example template (`templates/example.md.j2`):
 {{ context["description"] | default('(No Description)') }}
 
 ## Search Query
-```
 {{ context["search"] | default('(No Search Query)') }}
-```
 
 ## Schedule
 {{ context["cron_schedule"] | default('Not scheduled') }}
