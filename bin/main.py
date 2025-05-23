@@ -28,7 +28,6 @@ def run_script(script_path: Path):
 
 # Run both export and upload scripts
 if __name__ == "__main__":
-    print("main: ", log_file_path)
     run_script(EXPORT_SCRIPT)
     run_script(UPLOAD_SCRIPT)
     

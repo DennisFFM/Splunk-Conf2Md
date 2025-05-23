@@ -33,7 +33,6 @@ LOG_FILE = os.environ.get("LOG_FILE")
 LOG_FILE_PATH = Path(LOG_FILE).resolve() if LOG_FILE else None
 if LOG_FILE_PATH:
     LOG_FILE_PATH.parent.mkdir(parents=True, exist_ok=True)
-print("export: ",LOG_FILE_PATH)
 
 # ==== Utility functions ====
 

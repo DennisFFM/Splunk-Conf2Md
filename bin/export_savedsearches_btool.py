@@ -4,6 +4,7 @@ import os
 from pathlib import Path
 from collections import defaultdict
 from jinja2 import Environment, FileSystemLoader
+import json
 
 # ==== Determine base directory ====
 ROOT_DIR = Path(__file__).resolve().parent.parent
@@ -38,7 +39,6 @@ LOG_FILE = os.environ.get("LOG_FILE")
 LOG_FILE_PATH = Path(LOG_FILE).resolve() if LOG_FILE else None
 if LOG_FILE_PATH:
     LOG_FILE_PATH.parent.mkdir(parents=True, exist_ok=True)
-print("export: ",LOG_FILE_PATH)
 
 # ==== Helper functions ====
 
@@ -77,6 +77,31 @@ def get_btool_savedsearches():
 
     return savedsearches
 
+def format_risk_table(risk_data_raw):
+    """Convert JSON list of risk parameters to a markdown table (if valid). Ignores 'threat_object_*' entries."""
+    try:
+        risk_data = json.loads(risk_data_raw)
+    except Exception:
+        return None
+    if not isinstance(risk_data, list) or not risk_data:
+        return None
+
+    # Filter only valid risk entries (i.e. those with all 3 expected keys)
+    valid_entries = [
+        entry for entry in risk_data
+        if all(k in entry for k in ("risk_object_field", "risk_object_type", "risk_score"))
+    ]
+
+    if not valid_entries:
+        return None
+
+    rows = ["| Risk Object Field | Risk Object Type | Risk Score |",
+            "|-------------------|------------------|------------|"]
+    for entry in valid_entries:
+        rows.append(f"| {entry['risk_object_field']} | {entry['risk_object_type']} | {entry['risk_score']} |")
+    return "\n".join(rows)
+
+
 def export_savedsearches():
     """Exports matching savedsearches as Markdown using a Jinja2 template."""
     env = Environment(loader=FileSystemLoader(str(TEMPLATE_DIR)))
@@ -95,6 +120,13 @@ def export_savedsearches():
         context = {k: content.get(k, "(not available)") for k in template_keys}
         context["title"] = title
 
+        # Add parsed risk table if available
+        raw_risk_value = content.get("action.risk.param._risk")
+        if raw_risk_value:
+            risk_table_md = format_risk_table(raw_risk_value)
+            if risk_table_md:
+                context["risk_table_markdown"] = risk_table_md
+                
         filename = sanitize_filename(title) + ".md"
         filepath = EXPORT_BASE / filename
 
