@@ -1,17 +1,63 @@
-### Splunk Export ###
+### Splunk Export Configuration ###
+# Base directory for exported markdown files
 EXPORT_BASE = export/savedsearches
+
+# Directory containing Jinja2 templates
 TEMPLATE_DIR = templates
+
+# Template file to use for markdown generation
 TEMPLATE_NAME = example.md.j2
-#NOTABLE_FILTER_KEY = action.notable
-#NOTABLE_FILTER_VALUE = 1
+
+# Path to Splunk binary directory
 SPLUNK_BIN = /opt/splunk/bin/
 
-### WikiJS Import ###
+# Optional filter - uncomment to enable filtering
+# Only export searches where this key equals this value
+#NOTABLE_FILTER_KEY = action.notable
+#NOTABLE_FILTER_VALUE = 1
+
+### WikiJS Import Configuration ###
+# Wiki.js GraphQL API endpoint
 WIKIJS_URL = http://wikijs.local:3000/graphql
+
+# API Token for Wiki.js authentication
+# SECURITY NOTE: Consider using environment variable instead:
+# export CONF2MD_WIKIJS_API_TOKEN="your-token"
+# export WIKIJS_API_TOKEN="your-token"
 WIKIJS_API_TOKEN = PASTE_TOKEN_HERE
+
+# Directory containing markdown files to upload
 WIKIJS_MARKDOWN_DIR = export/savedsearches
-# Base Path without locale like "/en/"
+
+# Base path in Wiki.js where pages will be created
+# Do not include locale prefix (e.g., "/en/")
 WIKIJS_BASE_PATH = /a/b/c
+
+# Locale for Wiki.js pages
 WIKIJS_LOCALE = en
+
+# Maximum number of parallel uploads
 WIKIJS_MAX_PARALLEL_UPLOADS = 5
+
+# Retry configuration for failed uploads
+WIKIJS_MAX_RETRIES = 3
+WIKIJS_RETRY_DELAY = 2.0
+
+# Log file pattern (supports {execution_time} placeholder)
 WIKIJS_LOG_FILE = logs/wikijs_upload_{execution_time}.log
+
+### Advanced Configuration ###
+# These settings usually don't need to be changed
+
+# Logging level for console output (DEBUG, INFO, WARNING, ERROR)
+# Use -v flag for verbose output instead of changing this
+#CONSOLE_LOG_LEVEL = INFO
+
+# Logging level for file output
+#FILE_LOG_LEVEL = DEBUG
+
+# Timeout for GraphQL requests (seconds)
+#GRAPHQL_TIMEOUT = 30
+
+# Maximum filename length (characters)
+#MAX_FILENAME_LENGTH = 180

@@ -2,5 +2,7 @@
 .git
 .venv
 *.log
+*.md
+__pycache__
 config.txt
 savedsearch.md.j2
